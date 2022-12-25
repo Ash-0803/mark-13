@@ -6,17 +6,14 @@ nearestOutput = document.querySelector('#guess')
 
 function isPalindrome(dateObject){
   const Formats = convertToAllFormats(dateObject);
-  let flag = false;
 
   for(const format in Formats){
     str = Formats[format]
   
     if(str === str.split('').reverse().join('')){
-      flag = true;
-      return flag;
+      return true;
     }
   }
-  if(flag!=true) findNearest(dateObject)
 }
 function convertToAllFormats(dateObject){
   if(typeof(dateObject.day)!= 'string'){
@@ -35,6 +32,7 @@ function convertToAllFormats(dateObject){
 
 function convertToString(dateObject) {
     for(const key in dateObject ){
+      dateObject[key] = dateObject[key].toString()
       if (dateObject[key]<10){
         dateObject[key] = '0' + dateObject[key];
       }
@@ -52,21 +50,26 @@ function isLeapYear(year){
 }
 
 function findNearest(dateObject){
-    day = parseInt(dateObject.day);
-    month = parseInt(dateObject.month);
-    year = parseInt(dateObject.year);
 
-    const daysInMonth = isLeapYear(year)
-    if(day <= daysInMonth[month-1]){
-      day ++;
+  while(!isPalindrome(dateObject)){
+    let vday = parseInt(dateObject.day);
+    let vmonth = parseInt(dateObject.month);
+    let vyear = parseInt(dateObject.year);
+
+    const daysInMonth = isLeapYear(vyear)
+    if(vday <= daysInMonth[vmonth-1]){
+      vday ++;
     }
-    else month++; day = 1;
-    if(month > 12){year++; month=1; day=1}
-    dateObject.day = day;
-    dateObject.month = month;
-    dateObject.year = year;
-
-    console.log(isPalindrome(dateObject),dateObject)
+    else {
+      vmonth++;
+      vday = 1;
+    }
+    if(vmonth > 12){vyear++; vmonth=1; vday=1}
+    dateObject.day = vday;
+    dateObject.month = vmonth;
+    dateObject.year = vyear;
+  }
+  return dateObject;
   }
 
 function createObject(date){
@@ -84,7 +87,9 @@ function run(){
   let date = birthday.value;
   let dateObject = createObject(date);
 
-  if (isPalindrome(dateObject)) console.log('it is a palindrome')
+  if (isPalindrome(dateObject)) console.log('your birthday is a palindrome !!!\n',dateObject)
+  else {console.log("the nearest birthday to that of yours is: ",findNearest(dateObject))}
+
 }
 
 btn.addEventListener("click",run);
