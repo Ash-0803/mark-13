@@ -19,7 +19,9 @@ function isPalindrome(dateObject){
   if(flag!=true) findNearest(dateObject)
 }
 function convertToAllFormats(dateObject){
-  dateObject = convertToString(dateObject);
+  if(typeof(dateObject.day)!= 'string'){
+    dateObject = convertToString(dateObject);
+  }
   const Formats = {
     yyyymmdd : dateObject.year + dateObject.month + dateObject.day, 
     mmddyyyy : dateObject.month + dateObject.day + dateObject.year,
@@ -30,32 +32,32 @@ function convertToAllFormats(dateObject){
   }
   return Formats
 }
+
 function convertToString(dateObject) {
-  if(typeof(dateObject)!= 'string'){
     for(const key in dateObject ){
       if (dateObject[key]<10){
         dateObject[key] = '0' + dateObject[key];
       }
     }
-  }
   return dateObject;
 }
 
-function findNearest(dateObject){
-  day = parseInt(dateObject.day);
-  month = parseInt(dateObject.month);
-  year = parseInt(dateObject.year);
-  
-  function isLeapYear(year){
-    if(year%4==0 && year%100!=0 || year%400==0){
-      days = [31,29,31,30,31,30,31,31,30,31,30,31]
-    }
-    else daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
+function isLeapYear(year){
+  if(year%4==0 && year%100!=0 || year%400==0){
+    daysInMonth = [31,29,31,30,31,30,31,31,30,31,30,31]
   }
+  else daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 
-  while(!isPalindrome(dateObject)){
-    isLeapYear(year)
-    if(daysInMonth[parseInt(month)-1]!=day){
+  return daysInMonth;
+}
+
+function findNearest(dateObject){
+    day = parseInt(dateObject.day);
+    month = parseInt(dateObject.month);
+    year = parseInt(dateObject.year);
+
+    const daysInMonth = isLeapYear(year)
+    if(day <= daysInMonth[month-1]){
       day ++;
     }
     else month++; day = 1;
@@ -63,9 +65,10 @@ function findNearest(dateObject){
     dateObject.day = day;
     dateObject.month = month;
     dateObject.year = year;
+
+    console.log(isPalindrome(dateObject),dateObject)
   }
-  console.log(isPalindrome(dateObject),dateObject)
-}
+
 function createObject(date){
   
   let dateObject = {
@@ -79,7 +82,7 @@ function createObject(date){
 
 function run(){
   let date = birthday.value;
-  const dateObject = createObject(date);
+  let dateObject = createObject(date);
 
   if (isPalindrome(dateObject)) console.log('it is a palindrome')
 }
