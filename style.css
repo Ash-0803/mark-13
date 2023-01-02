@@ -1,11 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,400;0,700;1,400&family=Poiret+One&display=swap');
+
+:root{
+  --prime-font: 'Nunito Sans', sans-serif;
+  --style-font: 'Poiret One', cursive;
+  --accent-color:#80d5ff;
+  --bg-color:#000919;
+  --box-shadow: 2px 2px #80d5ff;
+  --big-box-shadow: 5px 5px 0 #80d5ff;
+}
 *{
   box-sizing: border-box;
+  color:var(--accent-color);
+  font-family: var(--prime-font);
 }
-
+body{
+  background-color: var(--bg-color);
+}
+.main-head{
+  font-family: var(--style-font);
+}
 .main-sec{
   display:flex;
   flex-direction:column;
   justify-content: center;
   align-items: center;
   gap:1rem;
+}
+input{
+  height:2rem;
+  border: 1px solid var(--accent-color);
+  border-style:none;
+  background-color: var(--bg-color);
+  box-shadow:var(--box-shadow);
+  
+}
+input:focus-visible {
+  outline:none;
+}
+button{
+  height:1.9rem;
+  padding:0px 5px;
+  margin-left:5rem;
+  border-style: none;
+  background-color:var(--bg-color);
+  box-shadow: var(--box-shadow)
 }

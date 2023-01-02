@@ -50,45 +50,92 @@ function isLeapYear(year){
 }
 
 function findNearest(dateObject){
+  var countNext = 0;
+  let countPrev = 0;
+  let nearestDate = [];
+  let flag = false;
+  nextDateObject = dateObject;
+  prevDateObject = dateObject;
 
-  while(!isPalindrome(dateObject)){
-    let vday = parseInt(dateObject.day);
-    let vmonth = parseInt(dateObject.month);
-    let vyear = parseInt(dateObject.year);
+  while(!flag){
+    arr = findNextDate(nextDateObject,countNext);
+    nextDateObject = arr[0];
+    countNext = arr[1];
 
-    const daysInMonth = isLeapYear(vyear)
-    if(vday <= daysInMonth[vmonth-1]){
-      vday ++;
+    if(isPalindrome()){
+      nearestDate = Object.assign(nextDateObject,{count : countNext}) 
+      flag = true;
     }
-    else {
-      vmonth++;
-      vday = 1;
+    arr2 = 
+    findPreviousDate(prevDateObject,countPrev);
+    if(isPalindrome(prevDateObject)){
+      nearestDate = Object.assign(PrevDateObject,{count : countPrev}) 
+      flag = true;
     }
-    if(vmonth > 12){vyear++; vmonth=1; vday=1}
-    dateObject.day = vday;
-    dateObject.month = vmonth;
-    dateObject.year = vyear;
   }
-  return dateObject;
-  }
+  return nearestDate;
+}
 
-function createObject(date){
+function findNextDate(nextDateObject,countNext){
+  let vday = parseInt(nextDateObject.day);
+  let vmonth = parseInt(nextDateObject.month);
+  let vyear = parseInt(nextDateObject.year);
+
+  const daysInMonth = isLeapYear(vyear)
+  if(vday <= daysInMonth[vmonth-1]){
+    vday ++;
+  }
+  else {
+    vmonth++;
+    vday = 1;
+  }
+  if(vmonth > 12){vyear++; vmonth=1; vday=1}
+  nextDateObject.day = vday;
+  nextDateObject.month = vmonth;
+  nextDateObject.year = vyear;
+  countNext += 1;
+  return [nextDateObject, countNext];
+}
+function findPreviousDate(prevDateObject,countPrev){
+  let vday = parseInt(prevDateObject.day);
+  let vmonth = parseInt(prevDateObject.month);
+  let vyear = parseInt(prevDateObject.year);
+
+  const daysInMonth = isLeapYear(vyear)
+  if(vday > 0){
+    vday --;
+  }
+  else {
+    vmonth--;
+    vday = daysInMonth[month-2];
+  }
+  if(vmonth < 1){vyear--; vmonth=12; vday=31}
+  prevDateObject.day = vday;
+  prevDateObject.month = vmonth;
+  prevDateObject.year = vyear;
+  countPrev ++;
+  return prevDateObject;
+}
   
+function createObject(date){
+  date = date.split('-');
   let dateObject = {
-    year : date.slice(0,4),
-    month : date.slice(5,7),
-    day : date.slice(8,10)
+    year : date[0],
+    month : date[1],
+    day : date[2]
   };
   return dateObject;
 };
-
 
 function run(){
   let date = birthday.value;
   let dateObject = createObject(date);
 
   if (isPalindrome(dateObject)) console.log('your birthday is a palindrome !!!\n',dateObject)
-  else {console.log("the nearest birthday to that of yours is: ",findNearest(dateObject))}
+  else {
+    nearestDate = findNearest(dateObject);
+    console.log(nearestDate.count,"days to go for the nearest palindrome")
+  }
 
 }
 
