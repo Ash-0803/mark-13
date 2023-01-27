@@ -62,8 +62,8 @@ function findNearest(dateObject){
     nextDateObject = arr[0];
     countNext = arr[1];
 
-    if(isPalindrome()){
-      nearestDate = Object.assign(nextDateObject,{count : countNext}) 
+    if(isPalindrome(nextDateObject)){
+      nearestDate = {...nextDateObject,count : countNext} 
       flag = true;
     }
     arr2 = 
