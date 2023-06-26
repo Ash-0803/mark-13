@@ -138,8 +138,8 @@ function run() {
       nearestDate.count +
       `${
         nearestDate.tense == "future"
-          ? " days to go for the nearest palindrome"
-          : " days before was the nearest palindrome"
+          ? ` days to go for the nearest palindrome \n at  Hello${nearestDate.day}-${nearestDate.month}-${nearestDate.year}`
+          : ` days before was the nearest palindrome \n at  ${nearestDate.day}-${nearestDate.month}-${nearestDate.year}`
       }`;
   }
 }
